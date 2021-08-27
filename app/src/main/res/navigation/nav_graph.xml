@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/charsListFragment">
+
+    <fragment
+        android:id="@+id/charsListFragment"
+        android:name="com.mycodeflow.rickandmortycharsapp.presentation.ui.CharsListFragment"
+        android:label="fragment_chars_list"
+        tools:layout="@layout/fragment_chars_list" >
+        <action
+            android:id="@+id/actionToDetails"
+            app:destination="@id/charsInfoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/charsInfoFragment"
+        android:name="com.mycodeflow.rickandmortycharsapp.presentation.ui.CharsInfoFragment"
+        android:label="fragment_chars_info"
+        tools:layout="@layout/fragment_chars_info" >
+        <argument
+            android:name="char_id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+</navigation>
