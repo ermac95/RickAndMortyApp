@@ -8,7 +8,6 @@ import com.mycodeflow.rickandmortycharsapp.data.model.CharactersResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
-import java.lang.Exception
 import javax.inject.Inject
 
 interface CharListRepositorySource{
@@ -16,22 +15,21 @@ interface CharListRepositorySource{
     suspend fun getCharsFromWeb(): Response<CharactersResponse>
 
     suspend fun getCharById(id: Int): Response<CharResponse>
-/*
 
     suspend fun getCharsFromDb(): List<CharItem>
 
-    suspend fun findCharById(id: Int)
+    suspend fun findCharById(id: Int): CharItem?
 
     suspend fun updateDataInLocalDb(chars: List<CharItem>)
 
- */
+    suspend fun updateCharDataInDb(character: CharItem)
 
 }
 
 
 class CharListRepository @Inject constructor(
-    val netWorkApi: RickAndMortyApi
-    //val localDataSource: CharsDao
+    val netWorkApi: RickAndMortyApi,
+    val localDataSource: CharsDao
 ): CharListRepositorySource {
 
     override suspend fun getCharsFromWeb(): Response<CharactersResponse>{
@@ -41,18 +39,20 @@ class CharListRepository @Inject constructor(
     override suspend fun getCharById(id: Int): Response<CharResponse> {
         return netWorkApi.getCharById(id)
     }
-    /*
+
     override suspend fun getCharsFromDb(): List<CharItem> = withContext(Dispatchers.IO) {
         localDataSource.getAllChars()
     }
 
-    override suspend fun findCharById(id: Int) {
-
+    override suspend fun findCharById(id: Int): CharItem? {
+        return localDataSource.getCharById(id)
     }
 
     override suspend fun updateDataInLocalDb(chars: List<CharItem>) {
         localDataSource.insertAllChars(chars)
     }
 
-     */
+    override suspend fun updateCharDataInDb(character: CharItem) {
+        localDataSource.insertCharSelected(character)
+    }
 }

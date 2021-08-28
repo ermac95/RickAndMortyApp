@@ -37,7 +37,6 @@ class CharViewModel @Inject constructor(
         updateCharsList()
     }
 
-    /*
     private fun updateCharsList() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler){
             _loading.value = true
@@ -65,47 +64,29 @@ class CharViewModel @Inject constructor(
             }
         }
     }
-     */
-
-    private fun updateCharsList() {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler){
-            _loading.value = true
-                val response = charListRepository.getCharsFromWeb()
-                withContext(Dispatchers.Main){
-                    if (response.isSuccessful){
-                        val charsData = response.body()
-                        if (charsData!= null){
-                            val charsList = convertWebDataToModel(charsData.results)
-                            //charListRepository.updateDataInLocalDb(charsList)
-                            _charsList.value = charsList
-                            _loading.value = false
-                        } else {
-                            onError("No chars found")
-                        }
-                    } else {
-                        onError("Couldn't fetch data from server")
-                    }
-                }
-            }
-        //}
-    }
 
     fun updateCurrentChar(charId: Int) {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler){
             _loading.value = true
-            val response = charListRepository.getCharById(charId)
-            withContext(Dispatchers.Main){
-                if (response.isSuccessful){
-                    val charData = response.body()
-                    if (charData!= null){
-                        val charModel = charData.toModel()
-                        _currentChar.value = charModel
-                        _loading.value = false
+            val cachedChar = charListRepository.findCharById(charId)
+            if (cachedChar != null){
+                _currentChar.value = cachedChar
+                _loading.value = false
+            } else {
+                val response = charListRepository.getCharById(charId)
+                withContext(Dispatchers.Main){
+                    if (response.isSuccessful){
+                        val charData = response.body()
+                        if (charData!= null){
+                            val charModel = charData.toModel()
+                            _currentChar.value = charModel
+                            _loading.value = false
+                        } else {
+                            onError("No char with such id found")
+                        }
                     } else {
-                        onError("No char with such id found")
+                        onError("Couldn't fetch data from server")
                     }
-                } else {
-                    updateCurrentChar(charId)
                 }
             }
         }

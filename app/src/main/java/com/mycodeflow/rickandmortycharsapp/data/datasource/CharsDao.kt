@@ -8,18 +8,17 @@ import com.mycodeflow.rickandmortycharsapp.data.model.CharItem
 
 @Dao
 interface CharsDao {
-/*
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllChars(chars: List<CharItem>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCharSelected(char: CharItem)
+    suspend fun insertAllChars(characters: List<CharItem>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCharSelected(character: CharItem)
 
     @Query("SELECT * FROM CharItem")
     suspend fun getAllChars(): List<CharItem>
 
-    @Query("SELECT * FROM CharItem WHERE id = :charId")
-    suspend fun getCharById(charId: Int): CharItem?
+    @Query("SELECT * FROM CharItem WHERE id = :characterId")
+    suspend fun getCharById(characterId: Int): CharItem?
 
- */
 }

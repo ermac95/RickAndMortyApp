@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mycodeflow.rickandmortycharsapp.data.model.CharItem
 
-@Database(entities = [CharItem::class], version = 1)
+@Database(entities = [CharItem::class], version = 2)
 @TypeConverters(CharTypeConverter::class)
 abstract class CharsDataBase: RoomDatabase() {
 
@@ -19,7 +19,9 @@ abstract class CharsDataBase: RoomDatabase() {
                     context,
                     CharsDataBase::class.java,
                     "chars_database"
-            ).build()
+            )
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }
