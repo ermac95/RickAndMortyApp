@@ -2,28 +2,20 @@ package com.mycodeflow.rickandmortycharsapp.data.model
 
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity
 data class CharItem(
-    @SerializedName("created")
-    val created: String,
-    @SerializedName("episode")
-    val episode: List<String>,
-    @SerializedName("gender")
-    val gender: String,
-    @SerializedName("id")
+    @PrimaryKey
     val id: Int,
-    @SerializedName("image")
+    val created: String,
+    val episode: List<String>,
+    val gender: String,
     val image: String,
-    @SerializedName("name")
     val name: String,
-    @SerializedName("origin")
     val origin: Origin,
-    @SerializedName("species")
     val species: String,
-    @SerializedName("status")
     val status: String,
-    @SerializedName("type")
     val type: String,
 )

@@ -15,26 +15,24 @@ interface CharListRepositorySource{
 
     suspend fun getCharsFromWeb(): Response<CharactersResponse>
 
+    suspend fun getCharById(id: Int): Response<CharResponse>
+/*
+
     suspend fun getCharsFromDb(): List<CharItem>
 
-    suspend fun getCharById(id: Int): Response<CharResponse>
-
-    suspend fun findCharById(id: Int): CharItem?
+    suspend fun findCharById(id: Int)
 
     suspend fun updateDataInLocalDb(chars: List<CharItem>)
+
+ */
 
 }
 
 
 class CharListRepository @Inject constructor(
-    val netWorkApi: RickAndMortyApi,
-    val localDataSource: CharsDao
+    val netWorkApi: RickAndMortyApi
+    //val localDataSource: CharsDao
 ): CharListRepositorySource {
-
-
-    override suspend fun getCharsFromDb(): List<CharItem> = withContext(Dispatchers.IO) {
-        localDataSource.getAllChars()
-    }
 
     override suspend fun getCharsFromWeb(): Response<CharactersResponse>{
         return netWorkApi.getCharsList()
@@ -43,12 +41,18 @@ class CharListRepository @Inject constructor(
     override suspend fun getCharById(id: Int): Response<CharResponse> {
         return netWorkApi.getCharById(id)
     }
+    /*
+    override suspend fun getCharsFromDb(): List<CharItem> = withContext(Dispatchers.IO) {
+        localDataSource.getAllChars()
+    }
 
-    override suspend fun findCharById(id: Int): CharItem? {
-        TODO("Not yet implemented")
+    override suspend fun findCharById(id: Int) {
+
     }
 
     override suspend fun updateDataInLocalDb(chars: List<CharItem>) {
         localDataSource.insertAllChars(chars)
     }
+
+     */
 }

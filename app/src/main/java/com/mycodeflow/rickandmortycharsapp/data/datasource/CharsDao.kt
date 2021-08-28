@@ -8,7 +8,7 @@ import com.mycodeflow.rickandmortycharsapp.data.model.CharItem
 
 @Dao
 interface CharsDao {
-
+/*
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllChars(chars: List<CharItem>)
 
@@ -20,4 +20,6 @@ interface CharsDao {
 
     @Query("SELECT * FROM CharItem WHERE id = :charId")
     suspend fun getCharById(charId: Int): CharItem?
+
+ */
 }

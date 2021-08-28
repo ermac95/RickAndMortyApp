@@ -13,7 +13,7 @@ class DataBaseModule {
 
     @Provides
     @Singleton
-    fun provideAppDataBase(context: Context): CharsDataBase{
+    fun provideAppDataBase(context: Context): CharsDataBase {
         return CharsDataBase.getInstance(context)
     }
 

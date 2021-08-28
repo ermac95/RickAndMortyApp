@@ -9,6 +9,7 @@ import com.mycodeflow.rickandmortycharsapp.domain.repository.CharListRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.util.Collections.emptyList
 import javax.inject.Inject
 
 class CharViewModel @Inject constructor(
@@ -36,6 +37,7 @@ class CharViewModel @Inject constructor(
         updateCharsList()
     }
 
+    /*
     private fun updateCharsList() {
         viewModelScope.launch(Dispatchers.IO + exceptionHandler){
             _loading.value = true
@@ -62,6 +64,30 @@ class CharViewModel @Inject constructor(
                 }
             }
         }
+    }
+     */
+
+    private fun updateCharsList() {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler){
+            _loading.value = true
+                val response = charListRepository.getCharsFromWeb()
+                withContext(Dispatchers.Main){
+                    if (response.isSuccessful){
+                        val charsData = response.body()
+                        if (charsData!= null){
+                            val charsList = convertWebDataToModel(charsData.results)
+                            //charListRepository.updateDataInLocalDb(charsList)
+                            _charsList.value = charsList
+                            _loading.value = false
+                        } else {
+                            onError("No chars found")
+                        }
+                    } else {
+                        onError("Couldn't fetch data from server")
+                    }
+                }
+            }
+        //}
     }
 
     fun updateCurrentChar(charId: Int) {
